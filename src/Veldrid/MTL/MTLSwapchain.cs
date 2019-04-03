@@ -85,7 +85,7 @@ namespace Veldrid.MTL
 
             _metalLayer.device = _gd.Device;
             _metalLayer.pixelFormat = MTLFormats.VdToMTLPixelFormat(format, false);
-            _metalLayer.framebufferOnly = true;
+            _metalLayer.framebufferOnly = false; // TODO: Don't need this if BlitTexture is implemented differently.
             _metalLayer.drawableSize = new CGSize(width, height);
 
             SetSyncToVerticalBlank(_syncToVerticalBlank);

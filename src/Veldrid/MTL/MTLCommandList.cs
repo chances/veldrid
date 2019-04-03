@@ -1150,9 +1150,43 @@ namespace Veldrid.MTL
             Framebuffer destination, uint dstX, uint dstY, uint dstWidth, uint dstHeight,
             bool linearFilter)
         {
+            if (srcWidth != dstWidth || srcHeight != dstHeight
+                || source.Format != destination.ColorTargets[0].Target.Format)
+            {
+                throw new NotImplementedException();
+            }
+
+            bool hasQueuedClear = _clearDepth != null;
+            for (uint i = 0; i < _clearColors.Length; i++)
+            {
+                if (_clearColors[i] != null)
+                {
+                    hasQueuedClear = true;
+                    break;
+                }
+            }
+            if (hasQueuedClear)
+            {
+                BeginCurrentRenderPass();
+                EndCurrentRenderPass();
+            }
+
             EnsureBlitEncoder();
 
-            throw new NotImplementedException();
+            MTLTexture mtlSrc = Util.AssertSubtype<Texture, MTLTexture>(source);
+            MetalBindings.MTLTexture dstMtlTex;
+            if (destination is MTLSwapchainFramebuffer scFB)
+            {
+                dstMtlTex = scFB.ParentSwapchain.CurrentDrawable.texture;
+            }
+            else
+            {
+                dstMtlTex = Util.AssertSubtype<Texture, MTLTexture>(destination.ColorTargets[0].Target).DeviceTexture;
+            }
+
+            _bce.copyFromTexture(
+                mtlSrc.DeviceTexture, UIntPtr.Zero, UIntPtr.Zero, new MTLOrigin(srcX, srcY, 0), new MTLSize(srcWidth, srcHeight, 1),
+                dstMtlTex, (UIntPtr)destination.ColorTargets[0].ArrayLayer, UIntPtr.Zero, new MTLOrigin(dstX, dstY, 0));
         }
 
         public override void Dispose()

@@ -24,6 +24,8 @@ namespace Veldrid.MTL
         public override IReadOnlyList<FramebufferAttachment> ColorTargets => _colorTargets;
         public override FramebufferAttachment? DepthTarget => _depthTarget;
 
+        public MTLSwapchain ParentSwapchain => _parentSwapchain;
+
         public MTLSwapchainFramebuffer(
             MTLGraphicsDevice gd,
             MTLSwapchain parent,
