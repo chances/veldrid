@@ -8,6 +8,7 @@ namespace Veldrid.MetalBindings
     public struct MTLCommandQueue
     {
         public readonly IntPtr NativePtr;
+        public static implicit operator IntPtr(MTLCommandQueue device) => device.NativePtr;
 
         public MTLCommandBuffer commandBuffer() => objc_msgSend<MTLCommandBuffer>(NativePtr, sel_commandBuffer);
 

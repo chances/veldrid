@@ -43,6 +43,8 @@ namespace Veldrid.MTL
         private bool[] _vertexBuffersActive;
         private bool _disposed;
 
+        internal MTLGraphicsDevice GraphicsDevice => _gd;
+
         public MTLCommandBuffer CommandBuffer => _cb;
 
         public MTLCommandList(ref CommandListDescription description, MTLGraphicsDevice gd)
