@@ -355,6 +355,24 @@ namespace Veldrid.NeoDemo
                 }
                 if (ImGui.BeginMenu("Debug"))
                 {
+                    if (_gd.BackendType == GraphicsBackend.Metal && ImGui.BeginMenu("Metal Frame Capture Debugging"))
+                    {
+                        var captureManager = MTL.MTLCaptureManager.SharedCaptureManager;
+                        var startOrEnd = captureManager.Value.IsCapturing ? "Stop" : "Start";
+                        if (ImGui.MenuItem($"{startOrEnd} Capturing"))
+                        {
+                            if (captureManager.Value.IsCapturing)
+                            {
+                                captureManager.Value.StopCapture();
+                            }
+                            else
+                            {
+                                captureManager.Value.StartCapture(new MTL.MTLCaptureDescriptor(_gd));
+                            }
+                        }
+
+                        ImGui.EndMenu();
+                    }
                     if (ImGui.MenuItem("Refresh Device Objects"))
                     {
                         RefreshDeviceObjects(1);

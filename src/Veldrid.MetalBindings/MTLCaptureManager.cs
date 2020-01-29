@@ -30,7 +30,7 @@ namespace Veldrid.MetalBindings
         public void stopCapture() => objc_msgSend(NativePtr, sel_stopCapture);
 
         private static readonly Selector sel_sharedCaptureManager = "sharedCaptureManager";
-        private static readonly Selector sel_startCaptureWithDescriptor = "startCaptureWithDescriptor:";
+        private static readonly Selector sel_startCaptureWithDescriptor = "startCaptureWithDescriptor:error:";
         private static readonly Selector sel_stopCapture = "stopCapture";
         private static readonly Selector sel_isCapturing = "isCapturing";
     }
